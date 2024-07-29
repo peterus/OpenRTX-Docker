@@ -30,6 +30,16 @@ RUN git clone --depth 1 https://github.com/fedetft/miosix-kernel.git \
   && cd \
   && rm -rf miosix-kernel
 
+
+# 2th stage build
+FROM ubuntu:24.04
+
+# copy arm-miosix-eabi compiler from build stage
+COPY --from=build /opt /opt
+
+# create symbolic links to compiler
+RUN ln -s /opt/arm-miosix-eabi/bin/* /bin/
+
 # dependencies for the project
 RUN apt-get update -y && apt-get install -y \
   git \
@@ -45,9 +55,6 @@ RUN apt-get update -y && apt-get install -y \
   codec2 \
   libcodec2-dev \
   && rm -rf /var/lib/apt/lists/*
-
-# install OpenGD77
-RUN git clone --depth 1 https://github.com/open-ham/OpenGD77.git /tmp/OpenGD77
 
 # fix error from git with different users
 RUN git config --system --add safe.directory '*'
