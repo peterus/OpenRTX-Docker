@@ -20,15 +20,10 @@ RUN apt-get update -y && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 # compile miosix compiler
-COPY install-script.sh .
 RUN git clone --depth 1 https://github.com/fedetft/miosix-kernel.git \
-  && mv install-script.sh miosix-kernel/miosix/_tools/compiler/gcc-9.2.0-mp3.1/install-script.sh \
-  && cd miosix-kernel/miosix/_tools/compiler/gcc-9.2.0-mp3.1 \
+  && cd miosix-kernel/miosix/_tools/compiler/gcc-9.2.0-mp3.2 \
   && sh download.sh \
-  && bash install-script.sh -j`nproc` \
-  && bash cleanup.sh \
-  && cd \
-  && rm -rf miosix-kernel
+  && bash install-script.sh -j`nproc`
 
 
 # 2th stage build
