@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  REGISTRY_IMAGE: ghcr.io/openrtx
+  REGISTRY_IMAGE: ghcr.io/peterus/openrtx
 
 jobs:
   build:
