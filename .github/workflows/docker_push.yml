@@ -11,7 +11,8 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     permissions:
        contents: read
        packages: write
@@ -20,14 +21,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
+        os: 
+          - ubuntu-24.04
+          - ubuntu-24.04-arm
+        #platform:
+        #  - linux/amd64
+        #  - linux/arm64
 
     steps:
       - name: Prepare
         run: |
-          platform=${{ matrix.platform }}
+          platform=${{ matrix.os }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
       - name: Extract metadata (tags, labels) for Docker
@@ -56,7 +60,7 @@ jobs:
         id: build
         uses: docker/build-push-action@v6
         with:
-          platforms: ${{ matrix.platform }}
+          #platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ env.REGISTRY_IMAGE }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
